@@ -53,6 +53,8 @@ class HomeAssistantView extends WatchUi.Menu2 {
                 var data       = null                       as Lang.Dictionary?;
                 var enabled    = true                       as Lang.Boolean?;
                 var exit       = false                      as Lang.Boolean?;
+                var detail     = items[i].get("detail")     as Lang.String?;
+                var icon       = HomeAssistantMenuItemFactory.create().customIcon(items[i].get("icon") as Lang.String?);
                 if (items[i].get("enabled") != null) {
                     enabled = items[i].get("enabled");       // Optional
                 }
@@ -111,7 +113,9 @@ class HomeAssistantView extends WatchUi.Menu2 {
                                 {
                                     :exit    => exit,
                                     :confirm => confirm,
-                                    :pin     => pin
+                                    :pin     => pin,
+                                    :icon    => icon,
+                                    :detail  => detail
                                 }
                             ));
                         } else if (type.equals("template") && content != null) {
@@ -128,7 +132,9 @@ class HomeAssistantView extends WatchUi.Menu2 {
                                     {
                                         :exit    => false,
                                         :confirm => confirm,
-                                        :pin     => pin
+                                        :pin     => pin,
+                                        :icon    => icon,
+                                    :detail  => detail
                                     }
                                 ));
                             } else {
@@ -142,7 +148,9 @@ class HomeAssistantView extends WatchUi.Menu2 {
                                     {
                                         :exit    => exit,
                                         :confirm => confirm,
-                                        :pin     => pin
+                                        :pin     => pin,
+                                        :icon    => icon,
+                                    :detail  => detail
                                     }
                                 ));
                             }
@@ -177,7 +185,9 @@ class HomeAssistantView extends WatchUi.Menu2 {
                                 {
                                     :exit    => false,
                                     :confirm => confirm,
-                                    :pin     => pin
+                                    :pin     => pin,
+                                    :icon    => icon,
+                                    :detail  => detail
                                 }
                             ));
                         } else if (type.equals("group")) {

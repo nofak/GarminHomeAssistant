@@ -1,0 +1,11 @@
+<svg height="32" viewBox="0 0 960 960" width="32" xmlns="http://www.w3.org/2000/svg">
+<style id="colours">
+    .colour1 { color: #0091ff; }
+    .colour2 { color: #00ccff; }
+  </style>
+<style>
+    .colour1 { stroke: currentColor; }
+    .colour2 { fill: currentColor; }
+  </style>
+<g transform="translate(0,960)"><path class="colour2" d="M160-120v-480l320-240 320 240v480h-80v-440L480-740 240-560v440h-80Zm200-80h240v-80H360v80Zm0-160h240v-80H360v80Zm-80 240v-400h400v400H280Z"/></g>
+</svg>

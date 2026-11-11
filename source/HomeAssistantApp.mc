@@ -464,8 +464,8 @@ class HomeAssistantApp extends Application.AppBase {
     function disableMenuCheck() as Void {
         // As we're out of memory, pretend we've checked and don't try again.
         mIsCacheChecked = true;
-        // Prevent the menu check happening in future.
-        Settings.unsetMenuCheck();
+        // Only skip the check for this run. Turning the setting off permanently (as upstream does)
+        // means a too large menu once stops all future menu updates, even after it is made smaller.
         // Tell the user
         var toast = WatchUi.loadResource($.Rez.Strings.MenuCheckDisabled) as Lang.String;
         if (mHasToast) {

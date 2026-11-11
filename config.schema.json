@@ -22,6 +22,15 @@
   ],
   "additionalProperties": false,
   "$defs": {
+    "icon": {
+      "description": "Optional icon shown instead of the menu item type icon, when type icons are shown. An unknown name falls back to the type icon.",
+      "type": "string",
+      "enum": ["garage", "heating", "boiler", "thermostat", "hot_water", "valve", "outdoor", "floor_heat", "appliances", "washer", "dryer", "dishwasher", "vacuum", "light", "power", "lock", "fan", "battery", "bell"]
+    },
+    "detail": {
+      "description": "Optional template for an information item, rendered by Home Assistant when the item is selected and shown on a full screen view. A line starting with '~' followed by comma separated numbers is drawn as a line graph. Without it, selecting an information item shows its full content.",
+      "type": "string"
+    },
     "toggle": {
       "type": "object",
       "properties": {
@@ -136,6 +145,8 @@
     "info": {
       "type": "object",
       "properties": {
+        "icon": { "$ref": "#/$defs/icon" },
+        "detail": { "$ref": "#/$defs/detail" },
         "name": {
           "$ref": "#/$defs/name"
         },
@@ -160,6 +171,8 @@
     "tap": {
       "type": "object",
       "properties": {
+        "icon": { "$ref": "#/$defs/icon" },
+        "detail": { "$ref": "#/$defs/detail" },
         "entity": {
           "$ref": "#/$defs/entity"
         },
@@ -199,6 +212,7 @@
     "group": {
       "type": "object",
       "properties": {
+        "icon": { "$ref": "#/$defs/icon" },
         "entity": {
           "$ref": "#/$defs/entity",
           "type": "string",

@@ -1,4 +1,4 @@
-[Home](README.md) | [Switches](examples/Switches.md) | [Actions](examples/Actions.md) | [Templates](examples/Templates.md) | [Numeric](examples/Numeric.md) | [Select](examples/Select.md) | [Glance](examples/Glance.md) | [Background Service](BackgroundService.md) | [Wi-Fi](Wi-Fi.md) | [HTTP Headers](HTTP_Headers.md) | [Trouble Shooting](TroubleShooting.md) | [Version History](HISTORY.md)
+[Home](README.md) | [Switches](examples/Switches.md) | [Actions](examples/Actions.md) | [Templates](examples/Templates.md) | [Numeric](examples/Numeric.md) | [Select](examples/Select.md) | [Glance](examples/Glance.md) | [Icons & Detail](examples/Icons_Detail.md) | [Background Service](BackgroundService.md) | [Wi-Fi](Wi-Fi.md) | [HTTP Headers](HTTP_Headers.md) | [Trouble Shooting](TroubleShooting.md) | [Version History](HISTORY.md)
 
 # GarminHomeAssistant
 
@@ -314,6 +314,7 @@ A future move to v3.x will remove support for all deprecated JSON elements to si
 * [Actions](examples/Actions.md)
 * [Templates](examples/Templates.md)
 * [Numeric](examples/Numeric.md)
+* [Icons & Detail](examples/Icons_Detail.md)
 
 ## Editing the JSON file
 
@@ -369,7 +370,7 @@ Without caching enabled, when you change the JSON file defining your dashboard, 
 You may choose to cache your menu definition on your device in order to reduce the delay in showing the menu (as it saves waiting for an HTTP GET request). If you use this option you need to be aware of how updates to the menu are managed. You may either:
 
 1. **Choose to have the cache cleared.** The toggle option below the cache option allows you to choose to refresh the cache the next time the application starts. Once the cache has been cleared, the application will reset this toggle for you, so you do not need to return to the settings to amend it.
-2. **Let the application retrieve the menu after starting and setting up the switch states** (including evaluating [templates](examples/Templates.md)), and then verify you have the latest menu. If a newer menu is retrieved you will be notified via a 'toast' or blue screen for devices without a toast in their API. You will be prompted to restart the application in order to build the menu from this latest menu definition. **This method has proven tricky in older devices with less memory.** Hence it can be turned off to avoid "Out of Memory" crashes. The application tries to protect against crashes by detecting insufficient memory and disabling the option (but note that this may require some tuning). Hence this option is off by default in case it causes a crash and new users are unaware of the potential cause.
+2. **Let the application retrieve the menu after starting and setting up the switch states** (including evaluating [templates](examples/Templates.md)), and then verify you have the latest menu. If a newer menu is retrieved you will be notified via a 'toast' or blue screen for devices without a toast in their API. You will be prompted to restart the application in order to build the menu from this latest menu definition. **This method has proven tricky in older devices with less memory.** Hence it can be turned off to avoid "Out of Memory" crashes. The application tries to protect against crashes by detecting insufficient memory and skipping the check for that run (but note that this may require some tuning). The setting itself stays on, so the check runs again next time, e.g. once the menu has been made smaller. Hence this option is off by default in case it causes a crash and new users are unaware of the potential cause.
 
 **Summary:** The two cache options are therefore distinct, the **first is a manual** forced refresh (the old way). The menu is refreshed on start up and no restart is required. The **second enables automatic checking** after starting and after presenting a usable menu with no extra delay but then any detected changes require a restart.
 
@@ -404,7 +405,7 @@ There is a toggle setting for "text alignment" that provides finer adjustment fo
 
 ### Type Icons
 
-The `tap`, `info`, `group`, `numeric` and `select` menu items show an icon in front of their text to indicate their type. On some devices, particularly those with round screens, the icon and the space reserved for it take up a significant part of each row, so long names and [template](examples/Templates.md) results get cut off. Turning off the "Show the type icons" setting shows these menu items without the icon so that their text can use the whole row. `toggle` menu items always show their switch, as it displays the toggle's state. The change takes effect the next time the application starts. Hiding the icons needs about 150 bytes more memory per menu item, which only matters on the devices with the least memory, see [Device Support & Characterisation](Devices.md).
+The `tap`, `info`, `group`, `numeric` and `select` menu items show an icon in front of their text to indicate their type. On some devices, particularly those with round screens, the icon and the space reserved for it take up a significant part of each row, so long names and [template](examples/Templates.md) results get cut off. Turning off the "Show the type icons" setting shows these menu items without the icon so that their text can use the whole row. `toggle` menu items always show their switch, as it displays the toggle's state. The change takes effect the next time the application starts. Hiding the icons needs about 150 bytes more memory per menu item, which only matters on the devices with the least memory, see [Device Support & Characterisation](Devices.md). Instead of the type icon, a menu item can show an icon of its own, see [Icons & Detail](examples/Icons_Detail.md).
 
 Some watches, such as the Venu 2, centre a menu item without an icon, whatever the "text alignment" setting. If you would rather have these menu items on the left, add spaces to the end of their `name` and `content` in your menu configuration, followed by a zero-width space, `\u200b`. Home Assistant removes spaces from the end of a template's result, but not when the zero-width space follows them, and the watch doesn't show it. The number of spaces depends on the watch and the length of the text, so adjust it until the text lines up. For example, on a Venu 2:
 

@@ -26,6 +26,7 @@ class HomeAssistantTapMenuItem extends HomeAssistantMenuItem {
     private var mExit                 as Lang.Boolean;
     private var mPin                  as Lang.Boolean;
     private var mData                 as Lang.Dictionary?;
+    private var mDetail               as Lang.String?;
 
     //! Class Constructor
     //!
@@ -51,7 +52,8 @@ class HomeAssistantTapMenuItem extends HomeAssistantMenuItem {
             :icon      as Graphics.BitmapType or WatchUi.Drawable or Lang.Symbol,
             :exit      as Lang.Boolean,
             :confirm   as Lang.Boolean,
-            :pin       as Lang.Boolean
+            :pin       as Lang.Boolean,
+            :detail    as Lang.String or Null
         }?,
         haService as HomeAssistantService
     ) {
@@ -70,6 +72,7 @@ class HomeAssistantTapMenuItem extends HomeAssistantMenuItem {
         mExit                 = options[:exit];
         mConfirm              = options[:confirm];
         mPin                  = options[:pin];
+        mDetail               = options[:detail];
     }
 
     //! Call a Home Assistant action only after checks have been done for confirmation or PIN entry.
@@ -135,6 +138,20 @@ class HomeAssistantTapMenuItem extends HomeAssistantMenuItem {
     public function onConfirm(b as Lang.Boolean) as Void {
         if (mAction != null) {
             mHomeAssistantService.call(mAction, mData, mExit);
+        } else {
+            // Information only item: show the full text, it may be truncated in the menu.
+            var text = getSubLabel();
+            if (text == null) {
+                text = "";
+            }
+            if (!text.equals("") || mDetail != null) {
+                var label = getLabel();
+                WatchUi.pushView(
+                    new HomeAssistantDetailView(label instanceof Lang.String ? label : "", text, mDetail),
+                    new WatchUi.BehaviorDelegate(),
+                    WatchUi.SLIDE_LEFT
+                );
+            }
         }
     }
 

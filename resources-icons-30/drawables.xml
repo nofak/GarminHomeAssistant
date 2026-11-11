@@ -22,4 +22,24 @@
     <bitmap id="InfoTypeIcon" filename="info_type.svg"/>
     <bitmap id="NumericTypeIcon" filename="numeric_type.svg"/>
     <bitmap id="SelectTypeIcon" filename="select_type.svg"/>
+    <!-- Optional per menu item icons, see the "icon" field in the menu JSON. Material Symbols. -->
+    <bitmap id="IconGarage" filename="icon_garage.svg"/>
+    <bitmap id="IconHeating" filename="icon_heating.svg"/>
+    <bitmap id="IconBoiler" filename="icon_boiler.svg"/>
+    <bitmap id="IconThermostat" filename="icon_thermostat.svg"/>
+    <bitmap id="IconHotWater" filename="icon_hot_water.svg"/>
+    <bitmap id="IconValve" filename="icon_valve.svg"/>
+    <bitmap id="IconOutdoor" filename="icon_outdoor.svg"/>
+    <bitmap id="IconFloorHeat" filename="icon_floor_heat.svg"/>
+    <bitmap id="IconAppliances" filename="icon_appliances.svg"/>
+    <bitmap id="IconWasher" filename="icon_washer.svg"/>
+    <bitmap id="IconDryer" filename="icon_dryer.svg"/>
+    <bitmap id="IconDishwasher" filename="icon_dishwasher.svg"/>
+    <bitmap id="IconVacuum" filename="icon_vacuum.svg"/>
+    <bitmap id="IconLight" filename="icon_light.svg"/>
+    <bitmap id="IconPower" filename="icon_power.svg"/>
+    <bitmap id="IconLock" filename="icon_lock.svg"/>
+    <bitmap id="IconFan" filename="icon_fan.svg"/>
+    <bitmap id="IconBattery" filename="icon_battery.svg"/>
+    <bitmap id="IconBell" filename="icon_bell.svg"/>
 </drawables>

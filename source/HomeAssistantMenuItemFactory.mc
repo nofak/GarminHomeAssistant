@@ -27,6 +27,7 @@ class HomeAssistantMenuItemFactory {
     private var mInfoTypeIcon         as WatchUi.Bitmap;
     private var mNumericTypeIcon      as WatchUi.Bitmap;
     private var mSelectTypeIcon       as WatchUi.Bitmap;
+    private var mCustomIcons          as Lang.Dictionary<Lang.String, Lang.ResourceId>;
     private var mHomeAssistantService as HomeAssistantService;
 
     private static var instance;
@@ -66,7 +67,51 @@ class HomeAssistantMenuItemFactory {
             :locY  => WatchUi.LAYOUT_VALIGN_CENTER
         });
 
+        // Optional per item icons, selected by the "icon" field in the menu JSON.
+        mCustomIcons = {
+            "garage"     => $.Rez.Drawables.IconGarage,
+            "heating"    => $.Rez.Drawables.IconHeating,
+            "boiler"     => $.Rez.Drawables.IconBoiler,
+            "thermostat" => $.Rez.Drawables.IconThermostat,
+            "hot_water"  => $.Rez.Drawables.IconHotWater,
+            "valve"      => $.Rez.Drawables.IconValve,
+            "outdoor"    => $.Rez.Drawables.IconOutdoor,
+            "floor_heat" => $.Rez.Drawables.IconFloorHeat,
+            "appliances" => $.Rez.Drawables.IconAppliances,
+            "washer"     => $.Rez.Drawables.IconWasher,
+            "dryer"      => $.Rez.Drawables.IconDryer,
+            "dishwasher" => $.Rez.Drawables.IconDishwasher,
+            "vacuum"     => $.Rez.Drawables.IconVacuum,
+            "light"      => $.Rez.Drawables.IconLight,
+            "power"      => $.Rez.Drawables.IconPower,
+            "lock"       => $.Rez.Drawables.IconLock,
+            "fan"        => $.Rez.Drawables.IconFan,
+            "battery"    => $.Rez.Drawables.IconBattery,
+            "bell"       => $.Rez.Drawables.IconBell
+        };
+
         mHomeAssistantService = new HomeAssistantService();
+    }
+
+    //! Custom icon for a menu item.
+    //!
+    //! @param name Value of the "icon" field from the menu JSON (optional)
+    //!
+    //! @return The icon, or null when the name is missing or unknown so the type icon is used.
+    //
+    function customIcon(name as Lang.String?) as WatchUi.Bitmap? {
+        if (name == null) {
+            return null;
+        }
+        var rezId = mCustomIcons.get(name);
+        if (rezId == null) {
+            return null;
+        }
+        return new WatchUi.Bitmap({
+            :rezId => rezId,
+            :locX  => WatchUi.LAYOUT_HALIGN_CENTER,
+            :locY  => WatchUi.LAYOUT_VALIGN_CENTER
+        });
     }
 
     //! Create the one and only instance of this class.
@@ -126,7 +171,9 @@ class HomeAssistantMenuItemFactory {
         options   as {
             :exit    as Lang.Boolean,
             :confirm as Lang.Boolean,
-            :pin     as Lang.Boolean
+            :pin     as Lang.Boolean,
+            :icon    as WatchUi.Bitmap or Null,
+            :detail  as Lang.String or Null
         }
     ) as WatchUi.MenuItem {
         if (entity_id != null) {
@@ -141,7 +188,9 @@ class HomeAssistantMenuItemFactory {
             options[keys[i]] = mMenuItemOptions.get(keys[i]);
         }
         if (action != null) {
-            options.put(:icon, mTapTypeIcon);
+            if (options[:icon] == null) {
+                options[:icon] = mTapTypeIcon;
+            }
             return new HomeAssistantTapMenuItem(
                 label,
                 template,
@@ -151,7 +200,9 @@ class HomeAssistantMenuItemFactory {
                 mHomeAssistantService
             );
         } else {
-            options[:icon] = mInfoTypeIcon;
+            if (options[:icon] == null) {
+                options[:icon] = mInfoTypeIcon;
+            }
             return new HomeAssistantTapMenuItem(
                 label,
                 template,
@@ -212,11 +263,18 @@ class HomeAssistantMenuItemFactory {
         definition as Lang.Dictionary,
         template   as Lang.String?
     ) as WatchUi.MenuItem {
+        // Copy the shared options, the group menu item adds its icon to the dictionary it is given.
+        var options = {} as Lang.Dictionary;
+        var keys = mMenuItemOptions.keys();
+        for (var i = 0; i < keys.size(); i++) {
+            options[keys[i]] = mMenuItemOptions.get(keys[i]);
+        }
+        var icon = customIcon(definition.get("icon") as Lang.String?);
         return new HomeAssistantGroupMenuItem(
             definition,
             template,
-            mGroupTypeIcon,
-            mMenuItemOptions
+            icon != null ? icon : mGroupTypeIcon,
+            options
         );
     }
 
